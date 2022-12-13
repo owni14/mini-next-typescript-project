@@ -13,7 +13,8 @@ const ImageBox = styled.div`
 `;
 
 const Image = styled.img`
-  background-size: 100% 100%;
+  width: 100%;
+  height: 100%;
   object-position: center;
   object-fit: cover;
 `;
@@ -34,6 +35,7 @@ const AddressParagraph = styled.p`
 const ButtonBox = styled.div`
   width: 100%;
   height: 10%;
+  padding-bottom: 1.5rem;
 `;
 
 const DetailButton = styled.button`
@@ -49,9 +51,10 @@ const DetailButton = styled.button`
 
 const MeetupItem = (props: MeetupData) => {
   const route = useRouter();
+  const meetupId = props.id;
 
   const showDetailHandler = () => {
-    route.push('/detail-meetup');
+    route.push(`/detail-meetup/${meetupId}`);
   };
 
   return (

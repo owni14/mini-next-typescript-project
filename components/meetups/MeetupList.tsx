@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import { MeetupData } from '../../types';
 
 const MeetupList = ({ meetups }: { meetups: MeetupData[] }) => {
-  console.log('meetups:: ', meetups);
   return (
     <>
       {meetups.map((meetup) => (

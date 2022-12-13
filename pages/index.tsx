@@ -1,45 +1,52 @@
 import styled from 'styled-components';
-import { MeetupData } from '../types/index';
+import { loadedData, MeetupData } from '../types/index';
 import MeetupList from '../components/meetups/MeetupList';
+import { useState, useEffect } from 'react';
+import { MongoClient } from 'mongodb';
 
 // styled components styling
 const MainLayout = styled.div`
   text-align: center;
 `;
 
-const DUMMY_DATA: MeetupData[] = [
-  {
-    id: 1,
-    title: 'test1',
-    image:
-      'https://upload.wikimedia.org/wikipedia/commons/6/62/Haeundae_2008.png',
-    address: 'some where1',
-    description: 'this is description test1',
-  },
-  {
-    id: 2,
-    title: 'test2',
-    image:
-      'https://images.unsplash.com/photo-1669123309443-c9c40c596133?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxfDB8MXxyYW5kb218MHx8fHx8fHx8MTY3MDgxMzg3Ng&ixlib=rb-4.0.3&q=80&w=1080',
-    address: 'some where2',
-    description: 'this is description test2',
-  },
-  {
-    id: 3,
-    title: 'test3',
-    image:
-      'https://images.unsplash.com/photo-1669497525508-58805a6f4ba6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxfDB8MXxyYW5kb218MHx8fHx8fHx8MTY3MDgxMzkzOA&ixlib=rb-4.0.3&q=80&w=1080',
-    address: 'some where3',
-    description: 'this is description test3',
-  },
-];
+const mainPage = (props: loadedData) => {
+  const [meetupData, setMeetupData] = useState<MeetupData[]>([]);
 
-const mainPage = () => {
+  useEffect(() => {
+    setMeetupData(props.meetupsData);
+  }, []);
+
   return (
     <MainLayout>
-      <MeetupList meetups={DUMMY_DATA} />
+      <MeetupList meetups={meetupData} />
     </MainLayout>
   );
 };
+
+export async function getStaticProps() {
+  const client = await MongoClient.connect(
+    'mongodb+srv://kmwoo0514:1234@pratice.rxc6uzg.mongodb.net/next-meetups?retryWrites=true&w=majority'
+  );
+
+  const db = client.db();
+  const collection = db.collection('meetups');
+  const meetupsData = await collection.find().toArray();
+
+  client.close();
+
+  console.log(meetupsData);
+
+  return {
+    props: {
+      meetupsData: meetupsData.map((meetupData) => ({
+        id: meetupData._id.toString(),
+        title: meetupData.title,
+        image: meetupData.image,
+        address: meetupData.address,
+        description: meetupData.description,
+      })),
+    },
+  };
+}
 
 export default mainPage;

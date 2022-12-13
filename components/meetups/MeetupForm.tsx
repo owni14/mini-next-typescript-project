@@ -56,18 +56,22 @@ const MeetupForm = () => {
     const enteredAddress = inputAddress.current?.value;
     const enteredDescription = inputDescription.current?.value;
 
-    const data = {
+    const meetupData = {
       title: enteredTitle,
       image: enteredImage,
       address: enteredAddress,
       description: enteredDescription,
     };
 
-    axios({
-      url: '/api/meetupDB',
-      method: 'POST',
-      data: data,
-    }).then((res) => console.log('res:: ', res));
+    axios
+      .post('/api/meetupDB', {
+        meetupData: meetupData,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+      .then((res) => route.replace('/'))
+      .catch((err) => console.log('error:: ', err));
   };
 
   return (

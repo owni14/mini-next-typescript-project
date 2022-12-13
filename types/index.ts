@@ -3,6 +3,7 @@ interface Props {
 }
 
 interface MeetupData {
+  key?: number;
   id: number;
   title: string;
   image: string;
@@ -10,4 +11,8 @@ interface MeetupData {
   description: string;
 }
 
-export type { Props, MeetupData };
+interface loadedData {
+  meetupsData: Array<MeetupData>;
+}
+
+export type { Props, MeetupData, loadedData };

@@ -41,7 +41,7 @@ const NavList = styled.li`
 const Navigation = () => {
   return (
     <HeaderBox>
-      <MainTitle>Next Meetups</MainTitle>
+      <MainTitle>Meetups</MainTitle>
       <Navbar>
         <NavUl>
           <NavList>
