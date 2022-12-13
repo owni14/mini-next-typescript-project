@@ -9,7 +9,7 @@ const MainLayout = styled.div`
   text-align: center;
 `;
 
-const mainPage = (props: loadedData) => {
+const MainPage = (props: loadedData) => {
   const [meetupData, setMeetupData] = useState<MeetupData[]>([]);
 
   useEffect(() => {
@@ -49,4 +49,4 @@ export async function getStaticProps() {
   };
 }
 
-export default mainPage;
+export default MainPage;
