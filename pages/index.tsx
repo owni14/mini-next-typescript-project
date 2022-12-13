@@ -46,6 +46,7 @@ export async function getStaticProps() {
         description: meetupData.description,
       })),
     },
+    revalidate: 1,
   };
 }
 
